@@ -1,0 +1,3 @@
+*.py[doc]
+__pycache__
+.vscode
