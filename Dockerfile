@@ -11,4 +11,4 @@ RUN pip install poetry \
   && poetry config settings.virtualenvs.create false \
   && poetry install --no-dev
 
-CMD ["python", "main.py"]
+CMD ["uvicorn", "main:app"]
