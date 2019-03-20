@@ -15,5 +15,5 @@ services:
 
   worker:
     <<: *search
-    command: dramatiq tasks --watch .
+    command: dramatiq tasks -t 8 -p 4 --watch .
     ports: []
