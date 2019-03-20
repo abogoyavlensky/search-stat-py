@@ -5,10 +5,12 @@ ENV PYTHONUNBUFFERED 1 \
   TZ=Europe/Moscow
 
 # Install requirements
-COPY . /app
-WORKDIR /app
+COPY pyproject.toml poetry.lock /
 RUN pip install poetry \
   && poetry config settings.virtualenvs.create false \
   && poetry install --no-dev
 
-CMD ["uvicorn", "main:app"]
+WORKDIR /app
+
+# Run server
+CMD ["uvicorn", "main:app", "--reload", "--host=0.0.0.0"]
