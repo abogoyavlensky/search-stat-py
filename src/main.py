@@ -1,9 +1,9 @@
+from collections import Counter
 from itertools import groupby
 from urllib.parse import urlparse
 
-import requests
-
 import feedparser
+import requests
 import uvicorn
 from starlette.applications import Starlette
 from starlette.responses import JSONResponse
@@ -23,11 +23,8 @@ def get_domain(link):
 
 def count_domains(links):
     """Return link dict grouped by domain."""
-    groups = {}
-    data = sorted(links, key=get_domain)
-    for key, group in groupby(data, get_domain):
-        groups[key] = list(group)
-    return groups
+    domains = map(get_domain, set(links))
+    return Counter(sorted(domains))
 
 
 def perform_request(query):
@@ -47,6 +44,7 @@ def perform_request(query):
 
 @app.route('/search')
 def search(request):
+    """Return statistic by domains which were found by passed query."""
     query = request.query_params.getlist('query')
 
     # g = group([
@@ -58,4 +56,4 @@ def search(request):
     stat = perform_request(query[0])
     print(stat)
 
-    return JSONResponse({'hello': query})
+    return JSONResponse(stat)
