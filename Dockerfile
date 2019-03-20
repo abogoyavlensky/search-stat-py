@@ -8,7 +8,7 @@ ENV PYTHONUNBUFFERED 1 \
 COPY pyproject.toml poetry.lock /
 RUN pip install poetry \
   && poetry config settings.virtualenvs.create false \
-  && poetry install --no-dev
+  && poetry install --no-dev -n -q --no-ansi
 
 WORKDIR /app
 
