@@ -1,6 +1,7 @@
 import itertools
 import logging
 from collections import Counter
+from typing import Dict, List
 from urllib.parse import urlparse
 
 import dramatiq
@@ -9,27 +10,28 @@ import requests
 import uvicorn
 from starlette.applications import Starlette
 from starlette.responses import JSONResponse
+
 from config import DEFAULT_TIMEOUT
 from tasks import get_links
 
 app = Starlette(debug=True)
 
 
-def get_domain(link):
+def get_domain(link: str) -> str:
     """Return second level domain from passed link."""
     parsed_url = urlparse(link)
     domains = parsed_url.netloc.split('.')[-2:]
     return '.'.join(domains)
 
 
-def count_domains(links):
+def count_domains(links: List[str]) -> Dict[str, int]:
     """Return dict with counted domains."""
     domains = map(get_domain, set(links))
     return Counter(sorted(domains))
 
 
 @app.route('/search')
-def search(request):
+def search(request: requests.Request) -> requests.Response:
     """Return statistic by domains which were found by passed query."""
     query = set(request.query_params.getlist('query'))
     logging.info('Searching statistic for [%(q)s]...', {'q': ', '.join(query)})

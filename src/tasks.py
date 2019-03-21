@@ -1,4 +1,5 @@
 import logging
+from typing import List
 
 import dramatiq
 import feedparser
@@ -8,14 +9,9 @@ from dramatiq.rate_limits import ConcurrentRateLimiter
 from dramatiq.rate_limits.backends import RedisBackend as RateLimiterBackend
 from dramatiq.results import Results
 from dramatiq.results.backends import RedisBackend
-from config import (
-    DEFAULT_TIMEOUT,
-    MAX_HTTP_CONNECTIONS,
-    MSG_LIMIT,
-    REDIS_HOST,
-    REDIS_PORT,
-    SEARCH_URL
-)
+
+from config import (DEFAULT_TIMEOUT, MAX_HTTP_CONNECTIONS, MSG_LIMIT,
+                    REDIS_HOST, REDIS_PORT, SEARCH_URL)
 
 result_backend = RedisBackend(host=REDIS_HOST, port=REDIS_PORT)
 limiter_backend = RateLimiterBackend(host=REDIS_HOST, port=REDIS_PORT)
@@ -30,7 +26,7 @@ HTTP_CONNECTION_LIMITER = ConcurrentRateLimiter(
 
 @dramatiq.actor(store_results=True, max_backoff=100, max_retries=None,
                 max_age=DEFAULT_TIMEOUT, queue_name='search-queue')
-def get_links(query):
+def get_links(query: str) -> List[str]:
     with HTTP_CONNECTION_LIMITER.acquire():
         url = SEARCH_URL.format(q=query, limit=MSG_LIMIT)
         response = requests.get(url)
