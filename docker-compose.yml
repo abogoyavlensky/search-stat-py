@@ -11,7 +11,7 @@ services:
     volumes:
       - ./src:/app
     environment:
-      MAX_HTTP_CONNECTIONS: ${MAX_HTTP_CONNECTIONS:-2}
+      MAX_HTTP_CONNECTIONS: ${MAX_HTTP_CONNECTIONS:-10}
     ports:
       - "8080:8000"
 

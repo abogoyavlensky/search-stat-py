@@ -11,6 +11,7 @@ requests = "^2.21"
 starlette = "^0.11.4"
 uvicorn = "^0.6.1"
 dramatiq = {version = "^1.5",extras = ["redis", "watch"]}
+environs = "^4.1"
 
 [tool.poetry.dev-dependencies]
 black = "=18.3-alpha.0"
