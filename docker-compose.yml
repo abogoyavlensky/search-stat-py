@@ -10,10 +10,12 @@ services:
       - redis
     volumes:
       - ./src:/app
+    environment:
+      MAX_HTTP_CONNECTIONS: ${MAX_HTTP_CONNECTIONS:-2}
     ports:
       - "8080:8000"
 
   worker:
     <<: *search
-    command: dramatiq tasks -t 8 -p 4 --watch .
+    command: /run-worker.sh
     ports: []

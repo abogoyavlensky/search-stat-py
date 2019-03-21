@@ -1,4 +1,5 @@
 import itertools
+import logging
 from collections import Counter
 from urllib.parse import urlparse
 
@@ -8,9 +9,9 @@ import requests
 import uvicorn
 from starlette.applications import Starlette
 from starlette.responses import JSONResponse
+from config import DEFAULT_TIMEOUT
 from tasks import get_links
 
-DEFAULT_TIMEOUT = 10000  # 10s
 app = Starlette(debug=True)
 
 
@@ -31,6 +32,7 @@ def count_domains(links):
 def search(request):
     """Return statistic by domains which were found by passed query."""
     query = set(request.query_params.getlist('query'))
+    logging.info('Searching statistic for [%(q)s]...', {'q': ', '.join(query)})
     group = dramatiq.group([get_links.message(word) for word in query]).run()
     results = group.get_results(block=True, timeout=DEFAULT_TIMEOUT)
     links = list(itertools.chain.from_iterable(results))
