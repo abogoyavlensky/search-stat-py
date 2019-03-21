@@ -10,7 +10,7 @@ from starlette.applications import Starlette
 from starlette.responses import JSONResponse
 from tasks import get_links
 
-DEFAULT_TIMEOUT = 5000  # 5s
+DEFAULT_TIMEOUT = 10000  # 10s
 app = Starlette(debug=True)
 
 
