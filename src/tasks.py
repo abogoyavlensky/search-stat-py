@@ -30,7 +30,7 @@ def get_links(query: str) -> List[str]:
     with HTTP_CONNECTION_LIMITER.acquire():
         url = SEARCH_URL.format(q=query, limit=MSG_LIMIT)
         response = requests.get(url)
-        response.raise_for_status()
+        response.raise_for_status()  # will retry
         feed = feedparser.parse(response.content)
         links = [entry['link'] for entry in feed.entries]
         logging.info(
