@@ -8,7 +8,7 @@ ENV PYTHONUNBUFFERED 1 \
 COPY pyproject.toml poetry.lock /
 RUN pip install poetry \
   && poetry config settings.virtualenvs.create false \
-  && poetry install -n -q --no-ansi
+  && poetry install -n -q --no-dev --no-ansi
 
 COPY ./etc/run-worker.sh /run-worker.sh
 RUN chmod +x /run-worker.sh

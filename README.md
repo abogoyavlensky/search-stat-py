@@ -35,9 +35,3 @@ $ curl http://localhost:8080/search?query=clj&query=clojure
 MAX_HTTP_CONNECTIONS=4  # Максимальное количество одновременных запросов
                         # к сервису bing, по умолчанию 10
 ```
-
-## Запуск тестов
-
-```bash
-$ make test
-```

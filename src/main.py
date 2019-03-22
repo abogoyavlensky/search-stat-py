@@ -22,7 +22,7 @@ app = Starlette(debug=False)
 
 
 class PrettyJSONResponse(Response):
-    media_type = 'application/json'
+    media_type = "application/json"
 
     def render(self, content: typing.Any) -> bytes:
         return json.dumps(
@@ -30,15 +30,15 @@ class PrettyJSONResponse(Response):
             ensure_ascii=False,
             allow_nan=False,
             indent=4,
-            separators=(',', ':'),
-        ).encode('utf-8')
+            separators=(",", ":"),
+        ).encode("utf-8")
 
 
 def get_domain(link: str) -> str:
     """Return second level domain from passed link."""
     parsed_url = urlparse(link)
-    domains = parsed_url.netloc.split('.')[-2:]
-    return '.'.join(domains)
+    domains = parsed_url.netloc.split(".")[-2:]
+    return ".".join(domains)
 
 
 def count_domains(links: List[str]) -> Dict[str, int]:
@@ -47,11 +47,11 @@ def count_domains(links: List[str]) -> Dict[str, int]:
     return Counter(sorted(domains))
 
 
-@app.route('/search')
+@app.route("/search")
 def search(request: requests.Request) -> requests.Response:
     """Return statistic by domains which were found by passed query."""
-    query = set(request.query_params.getlist('query'))
-    logging.info('Searching statistic for [%(q)s]...', {'q': ', '.join(query)})
+    query = set(request.query_params.getlist("query"))
+    logging.info("Searching statistic for [%(q)s]...", {"q": ", ".join(query)})
     group = dramatiq.group([get_links.message(word) for word in query]).run()
     results = group.get_results(block=True, timeout=DEFAULT_TIMEOUT)
     links = list(itertools.chain.from_iterable(results))
@@ -62,5 +62,6 @@ def search(request: requests.Request) -> requests.Response:
 @app.exception_handler(ResultTimeout)
 def result_timeout_exception(request, exc):
     return JSONResponse(
-        {'detail': 'The request lasted too long. Please try again later'},
-        status_code=504)
+        {"detail": "The request lasted too long. Please try again later"},
+        status_code=504,
+    )
