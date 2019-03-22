@@ -49,6 +49,7 @@ HTTP_CONNECTION_LIMITER = ConcurrentRateLimiter(
     queue_name="search-queue",
 )
 def get_links(query: str) -> List[str]:
+    """Return list of links from the feed by passed query."""
     with HTTP_CONNECTION_LIMITER.acquire():
         url = config.SEARCH_URL.format(q=query, limit=config.MSG_LIMIT)
         response = requests.get(url)
