@@ -24,7 +24,7 @@ HTTP_CONNECTION_LIMITER = ConcurrentRateLimiter(
     limiter_backend, 'http-connection-limiter', limit=MAX_HTTP_CONNECTIONS)
 
 
-@dramatiq.actor(store_results=True, max_backoff=100, max_retries=None,
+@dramatiq.actor(store_results=True, max_backoff=100, max_retries=10,
                 max_age=DEFAULT_TIMEOUT, queue_name='search-queue')
 def get_links(query: str) -> List[str]:
     with HTTP_CONNECTION_LIMITER.acquire():

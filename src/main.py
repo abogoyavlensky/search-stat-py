@@ -10,16 +10,19 @@ import dramatiq
 import feedparser
 import requests
 import uvicorn
+from dramatiq.results import ResultTimeout
 from starlette.applications import Starlette
+from starlette.exceptions import HTTPException
 from starlette.responses import JSONResponse, Response
+
 from config import DEFAULT_TIMEOUT
 from tasks import get_links
 
-app = Starlette(debug=True)
+app = Starlette(debug=False)
 
 
 class PrettyJSONResponse(Response):
-    media_type = "application/json"
+    media_type = 'application/json'
 
     def render(self, content: typing.Any) -> bytes:
         return json.dumps(
@@ -27,8 +30,8 @@ class PrettyJSONResponse(Response):
             ensure_ascii=False,
             allow_nan=False,
             indent=4,
-            separators=(",", ":"),
-        ).encode("utf-8")
+            separators=(',', ':'),
+        ).encode('utf-8')
 
 
 def get_domain(link: str) -> str:
@@ -54,3 +57,10 @@ def search(request: requests.Request) -> requests.Response:
     links = list(itertools.chain.from_iterable(results))
     data = count_domains(links)
     return PrettyJSONResponse(data)
+
+
+@app.exception_handler(ResultTimeout)
+def result_timeout_exception(request, exc):
+    return JSONResponse(
+        {'detail': 'The request lasted too long. Please try again later'},
+        status_code=504)
