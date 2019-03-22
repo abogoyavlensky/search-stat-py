@@ -16,4 +16,4 @@ RUN chmod +x /run-worker.sh
 WORKDIR /app
 
 # Run server
-CMD ["uvicorn", "main:app", "--host=0.0.0.0", "--reload"]
+CMD ["uvicorn", "main:app", "--host=0.0.0.0"]

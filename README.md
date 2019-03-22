@@ -4,7 +4,7 @@
 
 ## Запуск
 
-*Перед запуском, пожалуйста, установите `docker` и `docker-compose`*
+*Перед запуском, пожалуйста, установите `docker` и `docker-compose`.*
 
 ```bash
 $ docker-compose up
