@@ -44,7 +44,7 @@ HTTP_CONNECTION_LIMITER = ConcurrentRateLimiter(
 @dramatiq.actor(
     store_results=True,
     max_backoff=100,
-    max_retries=10,
+    max_retries=None,
     max_age=config.DEFAULT_TIMEOUT,
     queue_name="search-queue",
 )
@@ -60,4 +60,6 @@ def get_links(query: str) -> List[str]:
             "Status: %(code)s | Query: %(q)s | Found links: %(links)s",
             {"code": response.status_code, "q": query, "links": links},
         )
+        if not links:
+            raise Exception('Received an empty response. Will be retried')
         return links
