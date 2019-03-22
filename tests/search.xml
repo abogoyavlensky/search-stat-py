@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0">
+  <channel>
+    <title>Bing: test</title>
+    <link>http://www.bing.com:80/search?q=test</link>
+    <description>Search results</description>
+    <image>
+      <url>http://www.bing.com:80/s/a/rsslogo.gif</url>
+      <title>test</title>
+      <link>http://www.bing.com:80/search?q=test</link>
+    </image>
+    <copyright>Copyright © 2019 Microsoft. All rights reserved. These XML results may not be used, reproduced or transmitted in any manner or for any purpose other than rendering Bing results within an RSS aggregator for your personal, non-commercial use. Any other use of these results requires express written permission from Microsoft Corporation. By accessing this web page or using these results in any manner whatsoever, you agree to be bound by the foregoing restrictions.</copyright>
+    <item>
+      <title>Speedtest by Ookla - The Global Broadband Speed Test</title>
+      <link>https://www.speedtest.net/</link>
+      <description>Test your Internet connection bandwidth to locations around the world with this interactive broadband speed test from Ookla</description>
+      <pubDate>Tue, 19 Mar 2019 01:56:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Tanki Online Test Server</title>
+      <link>https://test.tankionline.com/</link>
+      <description>Welcome to the Tanki Online test servers page! Most of the time, these servers work in closed testing mode. This means they can only be accessed by a ...</description>
+      <pubDate>Fri, 15 Mar 2019 13:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>test — Википедия</title>
+      <link>https://ru.wikipedia.org/wiki/Test</link>
+      <description>test — UNIX-утилита для проверки типа файла и сравнения значений. Возвращает код возврата 0 ...</description>
+      <pubDate>Mon, 18 Mar 2019 06:44:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>

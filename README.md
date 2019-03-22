@@ -10,10 +10,34 @@
 $ docker-compose up
 ```
 
+### Пример запроса
+
+```
+$ curl http://localhost:8080/search?query=clj&query=clojure
+{
+    "90minut.pl":1,
+    "bourgenbresse.fr":1,
+    "clj.mx":1,
+    "clj.vn":1,
+    "cljlaw.com":1,
+    "clojure.org":1,
+    "fernweh.com":1,
+    "flightradar24.com":1,
+    "wa.gov":2
+}
+```
+
 ## Настройки
 
 *В корне проекта можно создать файл `.env`, в котором доступны следующие настройки:*
 
 ```bash
-MAX_HTTP_CONNECTIONS=4  # Максимальное количество одновременных запросов к сервису bing
+MAX_HTTP_CONNECTIONS=4  # Максимальное количество одновременных запросов
+                        # к сервису bing, по умолчанию 10
+```
+
+## Запуск тестов
+
+```bash
+$ make test
 ```

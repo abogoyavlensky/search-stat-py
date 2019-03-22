@@ -15,8 +15,8 @@ from starlette.applications import Starlette
 from starlette.exceptions import HTTPException
 from starlette.responses import JSONResponse, Response
 
-from config import DEFAULT_TIMEOUT
-from tasks import get_links
+from src.config import DEFAULT_TIMEOUT
+from src.tasks import get_links
 
 app = Starlette(debug=False)
 
