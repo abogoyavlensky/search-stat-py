@@ -1,5 +1,7 @@
 import itertools
+import json
 import logging
+import typing
 from collections import Counter
 from typing import Dict, List
 from urllib.parse import urlparse
@@ -9,12 +11,24 @@ import feedparser
 import requests
 import uvicorn
 from starlette.applications import Starlette
-from starlette.responses import JSONResponse
-
+from starlette.responses import JSONResponse, Response
 from config import DEFAULT_TIMEOUT
 from tasks import get_links
 
 app = Starlette(debug=True)
+
+
+class PrettyJSONResponse(Response):
+    media_type = "application/json"
+
+    def render(self, content: typing.Any) -> bytes:
+        return json.dumps(
+            content,
+            ensure_ascii=False,
+            allow_nan=False,
+            indent=4,
+            separators=(",", ":"),
+        ).encode("utf-8")
 
 
 def get_domain(link: str) -> str:
@@ -39,4 +53,4 @@ def search(request: requests.Request) -> requests.Response:
     results = group.get_results(block=True, timeout=DEFAULT_TIMEOUT)
     links = list(itertools.chain.from_iterable(results))
     data = count_domains(links)
-    return JSONResponse(data)
+    return PrettyJSONResponse(data)
